@@ -32,11 +32,11 @@ export default class Api {
 
     /**
      * 
-     * @param {string} url 
-     * @param {?number} version 
-     * @param {string} dataKey 
-     * @param {string} errorKey 
-     * @param {boolean} meta 
+     * @param {string} url The URL of the Resting Squirrel API.
+     * @param {?number} version The version of the API endpoint. Default: null.
+     * @param {string} dataKey Key which contains data informations in the response. Default: 'data'.
+     * @param {string} errorKey Key which contains error informations in the response. Default: 'error'.
+     * @param {boolean} meta If true meta data are returned in the response. Default: true.
      */
     constructor(url, version = null, dataKey = 'data', errorKey = 'error', meta = true) {
         this._url = url;
@@ -50,6 +50,7 @@ export default class Api {
     }
 
     /**
+     * Calls the API endpoint with http GET method. 
      * 
      * @param {string} endpoint 
      * @param {Object.<string, any>|Callback} params 
@@ -61,6 +62,7 @@ export default class Api {
     }
 
     /**
+     * Calls the API endpoint with http POST method. 
      * 
      * @param {string} endpoint 
      * @param {Object.<string, any>|Callback} params 
@@ -72,6 +74,7 @@ export default class Api {
     }
 
     /**
+     * Calls the API endpoint with http PUT method. 
      * 
      * @param {string} endpoint 
      * @param {Object.<string, any>|Callback} params 
@@ -83,6 +86,7 @@ export default class Api {
     }
 
     /**
+     * Calls the API endpoint with http DELETE method. 
      * 
      * @param {string} endpoint 
      * @param {Object.<string, any>|Callback} params 
@@ -94,6 +98,7 @@ export default class Api {
     }
 
     /**
+     * Calls the API endpoint with specified http method. 
      * 
      * @param {string} method
      * @param {string} endpoint 
@@ -137,15 +142,20 @@ export default class Api {
                 cb(err);
                 return;
             }
+            if (!body) {
+                if (res.statusCode === 204) {
+                    cb(null);
+                } else {
+                    cb(new Error('Unknown error'));
+                }
+                return;
+            }
             // TODO deprecation info
             if (body[this._errorKey]) {
                 cb(body[this._errorKey], null, body._meta);
                 return;
             }
-            if (body[this._dataKey]) {
-                cb(null, body[this._dataKey], body._meta);
-                return;
-            }
+            cb(null, body[this._dataKey], body._meta);
         });
     }
 }

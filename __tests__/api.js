@@ -25,8 +25,10 @@ const app = rs({
 ['get', 'post', 'put', 'delete'].forEach((method) => {
     app[method]('/test', false, [new Param('int', true, Type.integer)], (req, res, next) => next(null, { success: true }));
     app[method]('/test/auth', true, [new Param('int', true, Type.integer)], (req, res, next) => next(null, { success: true }));
+    app[method]('/test/204', (req, res, next) => next());
     app[method](0, '/test', false, [new Param('int', true, Type.integer)], (req, res, next) => next(null, { success: true }));
     app[method](0, '/test/auth', true, [new Param('int', true, Type.integer)], (req, res, next) => next(null, { success: true }));
+    app[method](0, '/test/204', (req, res, next) => next());
 });
 
 const calls = (method, api = new Api(URL, 0)) => {
@@ -120,12 +122,21 @@ const calls = (method, api = new Api(URL, 0)) => {
             done();
         });
     });
+
+    it(`calls the ${method} endpoint with 204 response`, (done) => {
+        api._meta = true;
+        api[method]('/test/204', (err, data, meta) => {
+            expect(err).to.be.null;
+            expect(data).to.be.undefined;
+            expect(meta).to.be.undefined;
+            done();
+        });
+    });
 };
 
 describe('Module checking', () => {
 
     it('creates the default api instance', () => {
-
         const api = Connector({ url: URL });
         expect(api).to.be.an.instanceOf(Api);
         expect(api).to.have.all.keys(['_url', '_version', '_meta', '_dataKey', '_errorKey', 'v']);

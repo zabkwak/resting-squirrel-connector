@@ -2,10 +2,10 @@ import Api from './api';
 
 /**
  * @typedef ModuleConfig
- * @property {string} url
- * @property {string} dataKey
- * @property {string} errorKey
- * @property {boolean} meta 
+ * @property {string} url The URL of the Resting Squirrel API.
+ * @property {string} dataKey Key which contains data informations in the response. Default: 'data'.
+ * @property {string} errorKey Key which contains error informations in the response. Default: 'error'.
+ * @property {boolean} meta If true meta data are returned in the response. Default: true.
  */
 
 /**
@@ -20,6 +20,10 @@ const fn = (config = {}) => {
 
     const M = createApi();
 
+    /**
+     * 
+     * @param {number} version Version of the API endpoint.
+     */
     M.v = version => createApi(version);
 
     return M;
