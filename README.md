@@ -66,6 +66,7 @@ The module's function receives `Config` data where the `url` is required.
 **dataKey** Key which contains data informations in the response. Default: 'data'.  
 **errorKey** Key which contains error informations in the response. Default: 'error'.  
 **meta** If true meta data are returned in the response. Default: true.  
+**apiKey** The api key to validates calls on the API. Default: null.  
 
 ## Methods
 The module is `Api` instance which has base http methods (`get`, `post`, `put`, `delete`) which call the http method on the RS API without a version of the endpoint. All methods are using same parameters.  
