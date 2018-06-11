@@ -7,6 +7,7 @@ npm i --save resting-squirrel-connector
 ```
 
 ## Usage
+### Callbacks
 ```javascript
 import connector from 'resting-squirrel-connector';
 
@@ -33,9 +34,30 @@ api.v(1).post('/test', { test: 'test' }, (err, data, meta) => {
 });
 
 // Calls the Resting Squirrel API endpoint at https://some.url.com/1/test?test=test with headers test: 'test'
-api.v(1).get('/test', { test: 'test' }, { test: 'test' } (err, data, meta) => {
+api.v(1).get('/test', { test: 'test' }, { test: 'test' }, (err, data, meta) => {
     // do some stuff
 });
+```
+### Promises
+```javascript
+import connector from 'resting-squirrel-connector';
+
+const api = connector({ url: 'https://some.url.com' });
+
+// Calls the Resting Squirrel API endpoint at https://some.url.com/test without any parameters or headers
+const data = await api.get('/test');
+
+// Calls the Resting Squirrel API endpoint at https://some.url.com/1/test without any parameters or headers
+const data = await api.v(1).get('/test');
+
+// Calls the Resting Squirrel API endpoint at https://some.url.com/1/test?test=test without headers
+const data = await api.v(1).get('/test', { test: 'test' });
+
+// Calls the Resting Squirrel API endpoint at https://some.url.com/1/test with POST body {"test":"test"} without headers
+const data = await api.v(1).post('/test', { test: 'test' });
+
+// Calls the Resting Squirrel API endpoint at https://some.url.com/1/test?test=test with headers test: 'test'
+const data = await api.v(1).get('/test', { test: 'test' }, { test: 'test' });
 ```
 
 ## Config
