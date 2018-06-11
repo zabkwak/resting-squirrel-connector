@@ -8,6 +8,7 @@ import Api from './api';
  * @property {string} dataKey Key which contains data informations in the response. Default: 'data'.
  * @property {string} errorKey Key which contains error informations in the response. Default: 'error'.
  * @property {boolean} meta If true meta data are returned in the response. Default: true.
+ * @property {?string} apiKey The api key to validates calls on the API. Default: null.
  */
 
 /**
@@ -16,9 +17,9 @@ import Api from './api';
  */
 const fn = (config = {}) => {
 
-    const { url, dataKey, errorKey, meta } = config;
+    const { url, dataKey, errorKey, meta, apiKey } = config;
 
-    const createApi = (version = null) => new Api(url, version, dataKey, errorKey, meta);
+    const createApi = (version = null) => new Api(url, version, dataKey, errorKey, meta, apiKey);
 
     const M = createApi();
 

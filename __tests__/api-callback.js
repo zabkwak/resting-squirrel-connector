@@ -140,7 +140,7 @@ describe('Module checking', () => {
     it('creates the default api instance', () => {
         const api = Connector({ url: URL });
         expect(api).to.be.an.instanceOf(Api);
-        expect(api).to.have.all.keys(['_url', '_version', '_meta', '_dataKey', '_errorKey', 'v']);
+        expect(api).to.have.all.keys(['_url', '_version', '_meta', '_dataKey', '_errorKey', '_apiKey', 'v']);
         expect(api._url).to.be.equal(URL);
         expect(api._version).to.be.null;
         expect(api._meta).to.be.true;
@@ -156,7 +156,7 @@ describe('Module checking', () => {
     it('creates the api instance with version', () => {
         const api = Connector({ url: URL }).v(0);
         expect(api).to.be.an.instanceOf(Api);
-        expect(api).to.have.all.keys(['_url', '_version', '_meta', '_dataKey', '_errorKey']);
+        expect(api).to.have.all.keys(['_url', '_version', '_meta', '_dataKey', '_errorKey', '_apiKey']);
         expect(api._url).to.be.equal(URL);
         expect(api._version).to.be.equal(0);
         expect(api._meta).to.be.true;

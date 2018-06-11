@@ -23,6 +23,8 @@ export default class Api {
     _errorKey = 'error';
     /** @type {boolean} */
     _meta = true;
+    /** @type {?string} */
+    _apiKey = null;
 
     /**
      * 
@@ -31,13 +33,15 @@ export default class Api {
      * @param {string} dataKey Key which contains data informations in the response. Default: 'data'.
      * @param {string} errorKey Key which contains error informations in the response. Default: 'error'.
      * @param {boolean} meta If true meta data are returned in the response. Default: true.
+     * @param {?string} apiKey The api key to validates calls on the API. Default: null.
      */
-    constructor(url, version = null, dataKey = 'data', errorKey = 'error', meta = true) {
+    constructor(url, version = null, dataKey = 'data', errorKey = 'error', meta = true, apiKey = null) {
         this._url = url;
         this._version = version;
         this._dataKey = dataKey;
         this._errorKey = errorKey;
         this._meta = meta;
+        this._apiKey = apiKey;
         if (!this._url) {
             throw new Error('No url specified.');
         }
@@ -141,9 +145,13 @@ export default class Api {
         const paramsKey = method === 'get' ? 'qs' : 'body';
         let qs;
         if (paramsKey === 'qs') {
-            params.nometa = this._meta ? undefined : '';
+            params.nometa = this._meta ? void 0 : '';
+            params.api_key = this._apiKey || void 0;
         } else {
-            qs = { nometa: this._meta ? undefined : '' };
+            qs = {
+                nometa: this._meta ? void 0 : '',
+                api_key: this._apiKey ||void 0,
+            };
         }
         request[method]({
             url,
