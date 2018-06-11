@@ -1,12 +1,6 @@
 import request from 'request';
 
-/**
- * @typedef ErrorResponse
- * @property {string} message
- * @property {string} code
- */
-
-/** @typedef {Object.<string, any>} DataResponse */
+import { DataResponse, ErrorResponse } from './response';
 
 /** @typedef {Object.<string, any>} MetaData */
 
@@ -58,7 +52,7 @@ export default class Api {
      * @param {Callback} cb 
      */
     get(endpoint, params, headers, cb) {
-        this.request('get', endpoint, params, headers, cb);
+        return this.request('get', endpoint, params, headers, cb);
     }
 
     /**
@@ -70,7 +64,7 @@ export default class Api {
      * @param {Callback} cb 
      */
     post(endpoint, params, headers, cb) {
-        this.request('post', endpoint, params, headers, cb);
+        return this.request('post', endpoint, params, headers, cb);
     }
 
     /**
@@ -82,7 +76,7 @@ export default class Api {
      * @param {Callback} cb 
      */
     put(endpoint, params, headers, cb) {
-        this.request('put', endpoint, params, headers, cb);
+        return this.request('put', endpoint, params, headers, cb);
     }
 
     /**
@@ -94,7 +88,7 @@ export default class Api {
      * @param {Callback} cb 
      */
     delete(endpoint, params, headers, cb) {
-        this.request('delete', endpoint, params, headers, cb);
+        return this.request('delete', endpoint, params, headers, cb);
     }
 
     /**
@@ -105,8 +99,10 @@ export default class Api {
      * @param {Object.<string, any>|Callback} params 
      * @param {Object.<string, string>|Callback} headers 
      * @param {Callback} cb 
+     * 
+     * @returns {?Promise<DataResponse>}
      */
-    request(method, endpoint, params, headers, cb) {
+    request(method, endpoint, params = {}, headers = {}, cb = null) {
         if (typeof params === 'function') {
             cb = params;
             params = {};
@@ -116,12 +112,31 @@ export default class Api {
             cb = headers;
             headers = {};
         }
-        if (typeof cb !== 'function') {
-            cb = () => { };
-        }
         if (endpoint.indexOf('/') !== 0) {
             endpoint = `/${endpoint}`;
         }
+        if (typeof cb === 'function') {
+            this._request(method, endpoint, params, headers, (err, { statusCode }, data, meta) => {
+                if (err) {
+                    cb(new ErrorResponse(statusCode, err, meta), null, meta);
+                    return;
+                }
+                cb(null, new DataResponse(statusCode, data, meta), meta);
+            });
+            return null;
+        }
+        return new Promise((resolve, reject) => {
+            this._request(method, endpoint, params, headers, (err, { statusCode }, data, meta) => {
+                if (err) {
+                    reject(new ErrorResponse(statusCode, err, meta));
+                    return;
+                }
+                resolve(new DataResponse(statusCode, data, meta));
+            });
+        });
+    }
+
+    _request(method, endpoint, params, headers, cb) {
         const url = `${this._url}${this._version !== null ? `/${this._version}` : ''}${endpoint}`;
         const paramsKey = method === 'get' ? 'qs' : 'body';
         let qs;
@@ -139,23 +154,23 @@ export default class Api {
             headers,
         }, (err, res, body) => {
             if (err) {
-                cb(err);
+                cb(err, res);
                 return;
             }
             if (!body) {
                 if (res.statusCode === 204) {
-                    cb(null);
+                    cb(null, res);
                 } else {
-                    cb(new Error('Unknown error'));
+                    cb(new Error('Unknown error'), res);
                 }
                 return;
             }
             // TODO deprecation info
             if (body[this._errorKey]) {
-                cb(body[this._errorKey], null, body._meta);
+                cb(body[this._errorKey], res, null, body._meta);
                 return;
             }
-            cb(null, body[this._dataKey], body._meta);
+            cb(null, res, body[this._dataKey], body._meta);
         });
     }
 }

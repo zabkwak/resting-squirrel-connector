@@ -127,7 +127,8 @@ const calls = (method, api = new Api(URL, 0)) => {
         api._meta = true;
         api[method]('/test/204', (err, data, meta) => {
             expect(err).to.be.null;
-            expect(data).to.be.undefined;
+            // expect(data).to.be.undefined;
+            expect(data.isEmpty()).to.be.true;
             expect(meta).to.be.undefined;
             done();
         });

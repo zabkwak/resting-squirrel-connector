@@ -8,9 +8,9 @@
     "create_index": "run-script-os",
     "create_index:win32": "echo module.exports = require('./dist').default; > index.js",
     "create_index:linux:darwin": "echo \"module.exports = require('./dist').default;\" > index.js",
-    "build": "./node_modules/.bin/babel ./src --out-dir ./dist --copy-files && npm run create_index",
+    "build_es6": "./node_modules/.bin/babel ./src --out-dir ./dist --copy-files && npm run create_index",
     "clear": "rm -rf ./dist && rm -f ./index.js",
-    "prepublish": "npm run build",
+    "prepublish": "npm run build_es6",
     "postpublish": "npm run clear"
   },
   "author": "Lukas Macuda <lukas.macuda@gmail.com>",
@@ -21,12 +21,14 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "chai": "^3.5.0",
+    "chai": "^4.1.2",
     "resting-squirrel": "^2.0.0",
     "run-script-os-fix": "^1.0.4"
   },
   "dependencies": {
-    "request": "^2.87.0"
+    "babel-polyfill": "^6.26.0",
+    "request": "^2.87.0",
+    "smart-error": "^1.1.4"
   },
   "repository": {
     "type": "git",
