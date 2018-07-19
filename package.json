@@ -1,6 +1,6 @@
 {
   "name": "resting-squirrel-connector",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Resting squirrel connector.",
   "main": "index.js",
   "scripts": {
@@ -22,13 +22,16 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
-    "resting-squirrel": "^2.5.1",
+    "resting-squirrel": "^2.8.3",
     "run-script-os-fix": "^1.0.4"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "request": "^2.87.0",
     "smart-error": "^1.1.4"
+  },
+  "peerDependencies": {
+    "resting-squirrel": "^2.8.3"
   },
   "repository": {
     "type": "git",
