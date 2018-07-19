@@ -93,8 +93,8 @@ const calls = (method, api = new Api(URL, 0)) => {
         api[method]('/test/auth', { int: 1 }, (err, data, meta) => {
             expect(err).to.be.an('object');
             expect(err).to.have.all.keys(['message', 'code']);
-            expect(err.message).to.be.equal('Unauthorized');
-            expect(err.code).to.be.equal('ERR_UNAUTHORIZED');
+            expect(err.message).to.be.equal('The access token is missing.');
+            expect(err.code).to.be.equal('ERR_MISSING_ACCESS_TOKEN');
             expect(meta).to.be.an('object');
             done();
         });
@@ -140,7 +140,7 @@ describe('Module checking', () => {
     it('creates the default api instance', () => {
         const api = Connector({ url: URL });
         expect(api).to.be.an.instanceOf(Api);
-        expect(api).to.have.all.keys(['_url', '_version', '_meta', '_dataKey', '_errorKey', '_apiKey', 'v']);
+        expect(api).to.have.all.keys(['_url', '_version', '_meta', '_dataKey', '_errorKey', '_apiKey', 'v', 'ping']);
         expect(api._url).to.be.equal(URL);
         expect(api._version).to.be.null;
         expect(api._meta).to.be.true;
@@ -169,6 +169,10 @@ describe('Start of the server', () => {
 
     it('starts the server', (done) => {
         app.start(done);
+    });
+
+    it('pings the server', (done) => {
+        Connector({ url: URL }).ping(done);
     });
 });
 

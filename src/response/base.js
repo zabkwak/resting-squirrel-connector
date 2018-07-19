@@ -8,6 +8,10 @@ export default class Response {
         return this._meta;
     }
 
+    get data() {
+        return { ...this._data };
+    }
+
     constructor(statusCode, data = null, meta = undefined) {
         Object.defineProperties(this, {
             _code: {

@@ -29,6 +29,8 @@ const fn = (config = {}) => {
      */
     M.v = version => createApi(version);
 
+    M.ping = (cb) => createApi().get('/ping', cb);
+
     return M;
 };
 

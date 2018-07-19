@@ -81,6 +81,7 @@ const calls = (method, api = new Api(URL, 0)) => {
         expect(data.success).to.be.true;
         expect(data.statusCode).to.be.equal(200);
         expect(data.meta).to.be.an('object');
+        expect(data.data).to.be.an('object');
     });
 
     it(`calls the ${method} endpoint with parameter without meta data`, async () => {
@@ -92,6 +93,7 @@ const calls = (method, api = new Api(URL, 0)) => {
         expect(data.success).to.be.true;
         expect(data.statusCode).to.be.equal(200);
         expect(data.meta).to.be.undefined;
+        expect(data.data).to.be.an('object');
         api._meta = true;
     });
 
@@ -103,6 +105,7 @@ const calls = (method, api = new Api(URL, 0)) => {
         expect(data.success).to.be.true;
         expect(data.statusCode).to.be.equal(200);
         expect(data.meta).to.be.an('object');
+        expect(data.data).to.be.an('object');
     });
 
     it(`calls the ${method} endpoint with parameter without token`, async () => {
@@ -116,8 +119,8 @@ const calls = (method, api = new Api(URL, 0)) => {
             expect(error).to.be.an('object');
             expect(error).to.be.an.instanceOf(ErrorResponse);
             expect(error).to.have.all.keys(['message', 'code']);
-            expect(error.message).to.be.equal('Unauthorized');
-            expect(error.code).to.be.equal('ERR_UNAUTHORIZED');
+            expect(error.message).to.be.equal('The access token is missing.');
+            expect(error.code).to.be.equal('ERR_MISSING_ACCESS_TOKEN');
             expect(error.statusCode).to.be.equal(401);
             expect(error.meta).to.be.an('object');
         }
@@ -149,6 +152,7 @@ const calls = (method, api = new Api(URL, 0)) => {
         expect(data.success).to.be.true;
         expect(data.statusCode).to.be.equal(200);
         expect(data.meta).to.be.an('object');
+        expect(data.data).to.be.an('object');
     });
 
     it(`calls the ${method} endpoint with 204 response`, async () => {
@@ -165,10 +169,14 @@ describe('Start of the server', () => {
     it('starts the server', (done) => {
         app.start(done);
     });
+
+    it('pings the server', async () => {
+        await Connector({ url: URL }).ping();
+    });
 });
 
 describe('Api calls Promises', () => {
-    
+
     const connector = Connector({ url: URL });
 
     describe('GET', () => {
