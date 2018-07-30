@@ -162,7 +162,7 @@ export default class Api {
             headers,
         }, (err, res, body) => {
             if (err) {
-                cb(err, res);
+                cb(err, res || { statusCode: 500 });
                 return;
             }
             if (!res) {

@@ -1,6 +1,6 @@
 {
   "name": "resting-squirrel-connector",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Resting squirrel connector.",
   "main": "index.js",
   "scripts": {
