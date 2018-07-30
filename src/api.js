@@ -106,7 +106,7 @@ export default class Api {
      * 
      * @returns {?Promise<DataResponse>}
      */
-    request(method, endpoint, params = {}, headers = {}, cb = null) {
+    async request(method, endpoint, params = {}, headers = {}, cb = null) {
         if (typeof params === 'function') {
             cb = params;
             params = {};
@@ -150,7 +150,7 @@ export default class Api {
         } else {
             qs = {
                 nometa: this._meta ? void 0 : '',
-                api_key: this._apiKey ||void 0,
+                api_key: this._apiKey || void 0,
             };
         }
         request[method]({
@@ -178,7 +178,7 @@ export default class Api {
                 cb(body[this._errorKey], res, null, body._meta);
                 return;
             }
-            cb(null, res, body[this._dataKey], body._meta);
+            cb(null, res || { statusCode: 500 }, body[this._dataKey], body._meta);
         });
     }
 }
