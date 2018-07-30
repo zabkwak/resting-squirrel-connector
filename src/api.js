@@ -165,6 +165,10 @@ export default class Api {
                 cb(err, res);
                 return;
             }
+            if (!res) {
+                cb(new Error('Unknown error'), { statusCode: 500 });
+                return;
+            }
             if (!body) {
                 if (res.statusCode === 204) {
                     cb(null, res);
@@ -176,10 +180,6 @@ export default class Api {
             // TODO deprecation info
             if (body[this._errorKey]) {
                 cb(body[this._errorKey], res, null, body._meta);
-                return;
-            }
-            if (!res) {
-                cb(new Error('Unknown error'), { statusCode: 500 });
                 return;
             }
             cb(null, res || { statusCode: 500 }, body[this._dataKey], body._meta);
