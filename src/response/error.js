@@ -11,8 +11,18 @@ export default class ErrorResponse extends Base {
         this.message = this._data.message;
         this.code = this._data.code;
 
-        const err = new SmartError(error);
-        const payload = err._parsePayload(err);
+        const payload = this._parsePayload(error);
         Object.keys(payload).forEach(key => this[key] = payload[key]);
+    }
+
+    _parsePayload(err) {
+        const o = {};
+        for (let k in err) {
+            if (['message', 'code', 'stack'].indexOf(k) >= 0) {
+                continue;
+            }
+            o[k] = err[k];
+        }
+        return o;
     }
 }
