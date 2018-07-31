@@ -1,6 +1,5 @@
-import request from 'request';
-
 import { DataResponse, ErrorResponse } from './response';
+import Request from './request';
 
 /** @typedef {Object.<string, any>} MetaData */
 
@@ -120,69 +119,28 @@ export default class Api {
             endpoint = `/${endpoint}`;
         }
         if (typeof cb === 'function') {
-            this._request(method, endpoint, params, headers, (err, { statusCode }, data, meta) => {
-                if (err) {
-                    cb(new ErrorResponse(statusCode, err, meta), null, meta);
-                    return;
-                }
-                cb(null, new DataResponse(statusCode, data, meta), meta);
-            });
-            return null;
+            let response;
+            try {
+                response = await this.request(method, endpoint, params, headers);
+            } catch (e) {
+                cb(e, null, e.meta);
+                return;
+            }
+            cb(null, response, response.meta);
+            return;
         }
-        return new Promise((resolve, reject) => {
-            this._request(method, endpoint, params, headers, (err, { statusCode }, data, meta) => {
-                if (err) {
-                    reject(new ErrorResponse(statusCode, err, meta));
-                    return;
-                }
-                resolve(new DataResponse(statusCode, data, meta));
-            });
-        });
-    }
-
-    _request(method, endpoint, params, headers, cb) {
         const url = `${this._url}${this._version !== null ? `/${this._version}` : ''}${endpoint}`;
-        const paramsKey = method === 'get' ? 'qs' : 'body';
-        let qs;
-        if (paramsKey === 'qs') {
-            params.nometa = this._meta ? void 0 : '';
-            params.api_key = this._apiKey || void 0;
+        let qs = {
+            nometa: this._meta ? void 0 : '',
+            api_key: this._apiKey || void 0,
+        };
+        let body;
+        if (method === 'get') {
+            qs = { ...qs, ...params };
         } else {
-            qs = {
-                nometa: this._meta ? void 0 : '',
-                api_key: this._apiKey || void 0,
-            };
+            body = { ...params };
         }
-        request[method]({
-            url,
-            gzip: true,
-            json: true,
-            qs: qs || undefined,
-            [paramsKey]: params,
-            headers,
-        }, (err, res, body) => {
-            if (err) {
-                cb(err, res || { statusCode: 500 });
-                return;
-            }
-            if (!res) {
-                cb(new Error('Unknown error'), { statusCode: 500 });
-                return;
-            }
-            if (!body) {
-                if (res.statusCode === 204) {
-                    cb(null, res);
-                } else {
-                    cb(new Error('Unknown error'), res);
-                }
-                return;
-            }
-            // TODO deprecation info
-            if (body[this._errorKey]) {
-                cb(body[this._errorKey], res, null, body._meta);
-                return;
-            }
-            cb(null, res || { statusCode: 500 }, body[this._dataKey], body._meta);
-        });
+        const r = new Request(url, method, qs, body, headers, this._dataKey, this._errorKey);
+        return r.execute();
     }
 }
