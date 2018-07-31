@@ -83,7 +83,7 @@ To use a version in calls the `v` method must be called with desired number of t
 ```javascript
 import connector from 'resting-squirrel-connector';
 
-const api = connect({ url: 'https://some.url.com' });
+const api = connector({ url: 'https://some.url.com' });
 
 api.v(1).get('/test', (err, data, meta) => {
     // do some stuff
