@@ -35,9 +35,15 @@ const fn = (config = {}) => {
     return M;
 };
 
-Object.defineProperty(fn, 'concurrency', {
-    set: (value) => Request.concurrency = value,
-    get: () => Request.concurrency,
+Object.defineProperties(fn, {
+    concurrency: {
+        set: value => Request.concurrency = value,
+        get: () => Request.concurrency,
+    },
+    cacheTTL: {
+        set: value => Request.cacheTTL = value,
+        get: () => Request.cacheTTL,
+    },
 });
 
 export default fn;

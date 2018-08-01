@@ -98,3 +98,14 @@ connector.concurrency = 100;
 
 connector.concurrency = Infinity;
 ```
+
+## Caching
+If there's need to send multiple same requests the requests can be cached. The cached responses are stored in memory and released after `cacheTTL` ms set in the module. The default TTL is 1000ms.
+```javascript
+import connector from 'resting-squrirel-connector';
+
+connector.cacheTTL = 100;
+
+connector.cacheTTL = 0; // Disables the caching
+
+```

@@ -16,6 +16,7 @@
   "author": "Lukas Macuda <lukas.macuda@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "async": "^2.6.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -27,6 +28,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "md5": "^2.2.1",
     "request": "^2.87.0",
     "smart-error": "^1.1.4"
   },
