@@ -10,7 +10,6 @@ import Request from './request';
  * @property {?string} errorKey Key which contains error informations in the response. Default: 'error'.
  * @property {?boolean} meta If true meta data are returned in the response. Default: true.
  * @property {?string} apiKey The api key to validates calls on the API. Default: null.
- * @property {?number} concurrency The count of the simultaneously running requests. Default: 200.
  */
 
 /**
@@ -19,9 +18,7 @@ import Request from './request';
  */
 const fn = (config = {}) => {
 
-    const { url, dataKey, errorKey, meta, apiKey, concurrency } = config;
-
-    Request.concurrency = concurrency || 200;
+    const { url, dataKey, errorKey, meta, apiKey } = config;
 
     const createApi = (version = null) => new Api(url, version, dataKey, errorKey, meta, apiKey);
 
@@ -37,5 +34,10 @@ const fn = (config = {}) => {
 
     return M;
 };
+
+Object.defineProperty(fn, 'concurrency', {
+    set: (value) => Request.concurrency = value,
+    get: () => Request.concurrency,
+});
 
 export default fn;

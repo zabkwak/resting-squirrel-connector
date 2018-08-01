@@ -67,7 +67,6 @@ The module's function receives `Config` data where the `url` is required.
 **errorKey** Key which contains error informations in the response. Default: 'error'.  
 **meta** If true meta data are returned in the response. Default: true.  
 **apiKey** The api key to validates calls on the API. Default: null.  
-**concurrency** The count of the simultaneously running requests. Default: 200.  
 
 ## Methods
 The module is `Api` instance which has base http methods (`get`, `post`, `put`, `delete`) which call the http method on the RS API without a version of the endpoint. All methods are using same parameters.  
@@ -88,4 +87,14 @@ const api = connector({ url: 'https://some.url.com' });
 api.v(1).get('/test', (err, data, meta) => {
     // do some stuff
 });
+```
+
+## Concurrency
+Multiple parallel requests can cause `ECONNRESET` because of the node.js behaviour. Concurrency option sets the maximal count of simultaneously running requests. The module has 200 simultaneously requests by default. It can be changed with the `concurrency` field of the module. 
+```javascript
+import connector from 'resting-squrirel-connector';
+
+connector.concurrency = 100;
+
+connector.concurrency = Infinity;
 ```

@@ -31,7 +31,7 @@ export default class Request {
     }
 
     async execute() {
-        if (Request._count < 50) {
+        if (Request._count < Request.concurrency) {
             Request._count++;
             this._locked = false;
         } else {
