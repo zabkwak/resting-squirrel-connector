@@ -123,10 +123,10 @@ export default class Api {
             try {
                 response = await this.request(method, endpoint, params, headers);
             } catch (e) {
-                cb(e, null, e.meta);
+                process.nextTick(()=> cb(e, null, e.meta));
                 return;
             }
-            cb(null, response, response.meta);
+            process.nextTick(() => cb(null, response, response.meta));
             return;
         }
         const url = `${this._url}${this._version !== null ? `/${this._version}` : ''}${endpoint}`;
