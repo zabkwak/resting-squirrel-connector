@@ -123,7 +123,7 @@ export default class Api {
             try {
                 response = await this.request(method, endpoint, params, headers);
             } catch (e) {
-                process.nextTick(()=> cb(e, null, e.meta));
+                process.nextTick(() => cb(e, null, e.meta));
                 return;
             }
             process.nextTick(() => cb(null, response, response.meta));
