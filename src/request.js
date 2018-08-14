@@ -85,9 +85,9 @@ export default class Request {
             Request._count--;
             if (response instanceof ErrorResponse) {
                 reject(response);
-                return;
+            } else {
+                resolve(response);
             }
-            resolve(response);
             setTimeout(() => {
                 delete Request._cache[this.key];
             }, Request.cacheTTL);
