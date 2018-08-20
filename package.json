@@ -3,6 +3,7 @@
   "version": "1.5.0",
   "description": "Resting squirrel connector.",
   "main": "index.js",
+  "types": "./dist/__types__/index.d.ts",
   "scripts": {
     "test": "mocha ./__tests__ --recursive --compilers js:babel-core/register --timeout 5000",
     "create_index": "run-script-os",
