@@ -80,4 +80,5 @@ declare module 'resting-squirrel-connector' {
 
     function M(options: Options): _Api;
     export default M;
+    export var concurrency: number;
 }
