@@ -79,6 +79,10 @@ declare module 'resting-squirrel-connector' {
     }
 
     function M(options: Options): _Api;
+    
+    namespace M {
+        export var cacheTTL: number;
+        export let concurrency: number;
+    }
     export default M;
-    export var concurrency: number;
 }
