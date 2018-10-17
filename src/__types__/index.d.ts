@@ -72,7 +72,7 @@ declare module 'resting-squirrel-connector' {
 
     }
 
-    class _Api extends Api {
+    export class _Api extends Api {
 
         v(version: number): Api;
         ping<T extends DataResponse, U extends ErrorResponse>(cb: Callback<T, U>): void;
