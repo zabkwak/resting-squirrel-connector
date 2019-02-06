@@ -2,6 +2,7 @@ import 'babel-polyfill';
 
 import Api from './api';
 import Request from './request';
+import { DataResponse, ErrorResponse } from './response';
 
 /**
  * @typedef ModuleConfig
@@ -46,4 +47,8 @@ Object.defineProperties(fn, {
     },
 });
 
-export default fn;
+export {
+    fn as default,
+    DataResponse,
+    ErrorResponse,
+};
