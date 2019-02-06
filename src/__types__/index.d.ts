@@ -20,7 +20,10 @@ declare module 'resting-squirrel-connector' {
         code: string;
     }
 
-    export class DataResponse extends Response { }
+    export class DataResponse extends Response {
+
+        isEmpty(): boolean;
+    }
 
     type Callback<T extends DataResponse, U extends ErrorResponse> = (err?: U, data?: T, meta?: { [key: string]: any }) => void;
 
@@ -79,7 +82,7 @@ declare module 'resting-squirrel-connector' {
     }
 
     function M(options: Options): _Api;
-    
+
     namespace M {
         export var cacheTTL: number;
         export let concurrency: number;
