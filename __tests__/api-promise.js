@@ -65,7 +65,7 @@ const calls = (method, api = new Api(URL, 0)) => {
             }
             expect(error).to.be.an('object');
             expect(error).to.be.an.instanceOf(ErrorResponse);
-            expect(error).to.have.all.keys(['message', 'code']);
+            expect(error).to.have.all.keys(['message', 'code', 'type_error']);
             expect(error.message).to.be.equal('Parameter \'int\' has invalid type. It should be \'integer\'.');
             expect(error.code).to.be.equal('ERR_INVALID_TYPE');
             expect(error.statusCode).to.be.equal(400);

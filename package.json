@@ -5,7 +5,7 @@
   "main": "index.js",
   "types": "./dist/__types__/index.d.ts",
   "scripts": {
-    "test": "mocha ./__tests__ --recursive --compilers js:babel-core/register --timeout 5000",
+    "test": "mocha ./__tests__ --recursive --compilers js:@babel/register --timeout 5000",
     "create_index": "run-script-os",
     "create_index:win32": "echo module.exports = require('./dist'); > index.js",
     "create_index:linux:darwin": "echo \"module.exports = require('./dist');\" > index.js",
@@ -17,12 +17,13 @@
   "author": "Lukas Macuda <lukas.macuda@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
     "async": "^2.6.2",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
     "resting-squirrel": "^2.14.1",
     "run-script-os-fix": "^1.0.4"
