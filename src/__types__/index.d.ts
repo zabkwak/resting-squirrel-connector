@@ -5,7 +5,8 @@ declare module 'resting-squirrel-connector' {
         dataKey?: string;
         errorKey?: string;
         meta?: boolean;
-        apiKey?: string;
+		apiKey?: string;
+		keepAlive?: string;
     }
 
     class Response {

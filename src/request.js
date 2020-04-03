@@ -24,11 +24,12 @@ export default class Request {
     _body = {};
     _headers = {};
     _dataKey = null;
-    _errorKey = null;
+	_errorKey = null;
+	_keepAlive = false;
 
     _locked = false;
 
-    constructor(url, method, qs, body, headers, dataKey = 'data', errorKey = 'error') {
+    constructor(url, method, qs, body, headers, dataKey = 'data', errorKey = 'error', keepAlive = false) {
         this.key = md5(`${method}${url}${JSON.stringify(qs)}${JSON.stringify(body)}${JSON.stringify(headers)}`);
         this._url = url;
         this._method = method;
@@ -36,7 +37,8 @@ export default class Request {
         this._body = body;
         this._headers = headers;
         this._dataKey = dataKey;
-        this._errorKey = errorKey;
+		this._errorKey = errorKey;
+		this._keepAlive = keepAlive;
     }
 
     async execute() {
@@ -102,7 +104,8 @@ export default class Request {
                 json: true,
                 qs: this._qs,
                 body: this._body,
-                headers: this._headers,
+				headers: this._headers,
+				forever: this._keepAlive,
             }, (err, res, body) => {
                 if (err) {
                     reject(new ErrorResponse(500, err));

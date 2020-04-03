@@ -23,7 +23,9 @@ export default class Api {
     /** @type {boolean} */
     _meta = true;
     /** @type {?string} */
-    _apiKey = null;
+	_apiKey = null;
+	/** @type {boolean} */
+	_keepAlive = false;
 
     /**
      * 
@@ -33,14 +35,16 @@ export default class Api {
      * @param {string} errorKey Key which contains error informations in the response. Default: 'error'.
      * @param {boolean} meta If true meta data are returned in the response. Default: true.
      * @param {?string} apiKey The api key to validates calls on the API. Default: null.
+ 	 * @property {?boolean} keepAlive Indicates if the connection should be kept alive. Default: false.
      */
-    constructor(url, version = null, dataKey = 'data', errorKey = 'error', meta = true, apiKey = null) {
+    constructor(url, version = null, dataKey = 'data', errorKey = 'error', meta = true, apiKey = null, keepAlive = false) {
         this._url = url;
         this._version = version;
         this._dataKey = dataKey;
         this._errorKey = errorKey;
         this._meta = meta;
-        this._apiKey = apiKey;
+		this._apiKey = apiKey;
+		this._keepAlive = keepAlive;
         if (!this._url) {
             throw new Error('No url specified.');
         }
@@ -140,7 +144,7 @@ export default class Api {
         } else {
             body = { ...params };
         }
-        const r = new Request(url, method, qs, body, headers, this._dataKey, this._errorKey);
+        const r = new Request(url, method, qs, body, headers, this._dataKey, this._errorKey, this._keepAlive);
         return r.execute();
     }
 }
