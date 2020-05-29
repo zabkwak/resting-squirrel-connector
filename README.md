@@ -109,3 +109,6 @@ connector.cacheTTL = 100;
 connector.cacheTTL = 0; // Disables the caching
 
 ```
+
+## Migration to V2 (TypeScript only)
+V2 changes type definitions. Extending `DataResponse` for API requests is no longer needed. 
