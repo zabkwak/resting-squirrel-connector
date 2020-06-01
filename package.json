@@ -33,6 +33,7 @@
     "@babel/polyfill": "^7.10.1",
     "md5": "^2.2.1",
     "request": "^2.88.2",
+    "route-parser": "0.0.5",
     "smart-error": "^3.0.0"
   },
   "repository": {

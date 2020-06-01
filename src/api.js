@@ -1,5 +1,6 @@
 import { DataResponse, ErrorResponse } from './response';
 import Request from './request';
+import Builder from './builder';
 
 /** @typedef {Object.<string, any>} MetaData */
 
@@ -11,6 +12,10 @@ import Request from './request';
  * Base class for api calls.
  */
 export default class Api {
+
+	get Builder() {
+		return new Builder(this);
+	}
 
     /** @type {string} */
     _url = null;

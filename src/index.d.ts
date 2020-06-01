@@ -28,7 +28,38 @@ declare type Error<T = {}> = ErrorResponse & T;
 
 declare type Callback<T = {}, U = {}> = (err?: Error<U>, data?: Data<T>, meta?: { [key: string]: any }) => void;
 
+declare class Builder {
+
+	constructor(api: Api);
+
+	public execute<T = {}>(): Promise<Data<T>>;
+
+	public get(endpoint: string): this;
+
+	public put(endpoint: string): this;
+
+	public post(endpoint: string): this;
+
+	public delete(endpoint: string): this;
+
+	public sign(key: string, value: any): this;
+
+	public addHeader(key: string, value: any): this;
+
+	public addParam(key: string, value: any): this;
+
+	public addArgument(key: string, value: any): this;
+
+	public setHeaders(headers: { [key: string]: any }): this;
+
+	public setParams(params: { [key: string]: any }): this;
+
+	public setArguments(params: { [key: string]: any }): this;
+}
+
 declare class Api {
+
+	public Builder: Builder;
 
 	put<T = {}, U = {}>(endpoint: string, cb: Callback<T, U>): void;
 	put<T = {}, U = {}>(endpoint: string, params: { [key: string]: any }, cb: Callback<T, U>): void;
