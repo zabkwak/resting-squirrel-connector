@@ -12,6 +12,7 @@ import { DataResponse, ErrorResponse } from './response';
  * @property {?boolean} meta If true meta data are returned in the response. Default: true.
  * @property {?string} apiKey The api key to validates calls on the API. Default: null.
  * @property {?boolean} keepAlive Indicates if the connection should be kept alive. Default: false.
+ * @property {?boolean} logWarning Indicates if the warnings should be printed to stdout. Default: false.
  */
 
 /**
@@ -20,9 +21,9 @@ import { DataResponse, ErrorResponse } from './response';
  */
 const fn = (config = {}) => {
 
-    const { url, dataKey, errorKey, meta, apiKey, keepAlive } = config;
+    const { url, dataKey, errorKey, meta, apiKey, keepAlive, logWarning } = config;
 
-    const createApi = (version = null) => new Api(url, version, dataKey, errorKey, meta, apiKey, keepAlive);
+    const createApi = (version = null) => new Api(url, version, dataKey, errorKey, meta, apiKey, keepAlive, logWarning);
 
     const M = createApi();
 

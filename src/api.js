@@ -31,6 +31,8 @@ export default class Api {
 	_apiKey = null;
 	/** @type {boolean} */
 	_keepAlive = false;
+	/** @type {boolean} */
+	_logWarning = true;
 
     /**
      * 
@@ -40,9 +42,10 @@ export default class Api {
      * @param {string} errorKey Key which contains error informations in the response. Default: 'error'.
      * @param {boolean} meta If true meta data are returned in the response. Default: true.
      * @param {?string} apiKey The api key to validates calls on the API. Default: null.
- 	 * @property {?boolean} keepAlive Indicates if the connection should be kept alive. Default: false.
+ 	 * @param {?boolean} keepAlive Indicates if the connection should be kept alive. Default: false.
+ 	 * @param {?boolean} logWarning Indicates if the warnings should be printed to stdout. Default: false.
      */
-    constructor(url, version = null, dataKey = 'data', errorKey = 'error', meta = true, apiKey = null, keepAlive = false) {
+    constructor(url, version = null, dataKey = 'data', errorKey = 'error', meta = true, apiKey = null, keepAlive = false, logWarning = false) {
         this._url = url;
         this._version = version;
         this._dataKey = dataKey;
@@ -50,6 +53,7 @@ export default class Api {
         this._meta = meta;
 		this._apiKey = apiKey;
 		this._keepAlive = keepAlive;
+		this._logWarning = logWarning
         if (!this._url) {
             throw new Error('No url specified.');
         }
@@ -149,7 +153,7 @@ export default class Api {
         } else {
             body = { ...params };
         }
-        const r = new Request(url, method, qs, body, headers, this._dataKey, this._errorKey, this._keepAlive);
+        const r = new Request(url, method, qs, body, headers, this._dataKey, this._errorKey, this._keepAlive, this._logWarning);
         return r.execute();
     }
 }

@@ -4,7 +4,8 @@ declare interface Options {
 	errorKey?: string;
 	meta?: boolean;
 	apiKey?: string;
-	keepAlive?: string;
+	keepAlive?: boolean;
+	logWarning?: boolean;
 }
 
 declare class BaseResponse {

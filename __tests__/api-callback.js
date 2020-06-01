@@ -140,12 +140,13 @@ describe('Module checking', () => {
     it('creates the default api instance', () => {
         const api = Connector({ url: URL });
         expect(api).to.be.an.instanceOf(Api);
-        expect(api).to.have.all.keys(['_url', '_version', '_meta', '_dataKey', '_errorKey', '_apiKey', '_keepAlive', 'v', 'ping']);
+        expect(api).to.have.all.keys(['_url', '_version', '_meta', '_dataKey', '_errorKey', '_apiKey', '_keepAlive', '_logWarning', 'v', 'ping']);
         expect(api._url).to.be.equal(URL);
         expect(api._version).to.be.null;
         expect(api._meta).to.be.true;
         expect(api._dataKey).to.be.equal('data');
-        expect(api._errorKey).to.be.equal('error');
+		expect(api._errorKey).to.be.equal('error');
+		expect(api._logWarning).to.be.false;
         expect(api.v).to.be.a('function');
     });
 
@@ -154,14 +155,15 @@ describe('Module checking', () => {
     });
 
     it('creates the api instance with version', () => {
-        const api = Connector({ url: URL }).v(0);
+        const api = Connector({ url: URL, logWarning: true }).v(0);
         expect(api).to.be.an.instanceOf(Api);
-        expect(api).to.have.all.keys(['_url', '_version', '_meta', '_dataKey', '_errorKey', '_apiKey', '_keepAlive']);
+        expect(api).to.have.all.keys(['_url', '_version', '_meta', '_dataKey', '_errorKey', '_apiKey', '_keepAlive', '_logWarning']);
         expect(api._url).to.be.equal(URL);
         expect(api._version).to.be.equal(0);
         expect(api._meta).to.be.true;
         expect(api._dataKey).to.be.equal('data');
         expect(api._errorKey).to.be.equal('error');
+		expect(api._logWarning).to.be.true;
     });
 });
 
