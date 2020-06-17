@@ -78,3 +78,45 @@ describe('Builder', () => {
 		expect(data.id).to.be.equal(1);
 	});
 });
+
+describe('Request', () => {
+
+	it('calls the base endpoint with request', async () => {
+		const builder = new Api.Request('authorization');
+		expect(builder).to.be.instanceOf(Builder);
+		const data = await builder
+			.get('/')
+			.addParam('test', 'test')
+			.sign('TOKEN')
+			.execute();
+		expect(data).to.have.all.keys(['test']);
+		expect(data.test).to.be.equal('test');
+	});
+
+	it ('calls the arguments defined endpoint', async () => {
+		const builder = new Api.Request('authorization');
+		expect(builder).to.be.instanceOf(Builder);
+		const data = await builder
+			.get('/1')
+			.addParam('test', 'test')
+			.sign('TOKEN')
+			.execute();
+		expect(data).to.have.all.keys(['test', 'id']);
+		expect(data.test).to.be.equal('test');
+		expect(data.id).to.be.equal(1);
+	});
+
+	it ('calls the arguments defined endpoint with template', async () => {
+		const builder = new Api.Request('authorization');
+		expect(builder).to.be.instanceOf(Builder);
+		const data = await builder
+			.get('/:id')
+			.addArgument('id', 1)
+			.addParam('test', 'test')
+			.sign('TOKEN')
+			.execute();
+		expect(data).to.have.all.keys(['test', 'id']);
+		expect(data.test).to.be.equal('test');
+		expect(data.id).to.be.equal(1);
+	});
+});

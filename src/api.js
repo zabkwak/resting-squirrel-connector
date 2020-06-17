@@ -14,7 +14,17 @@ import Builder from './builder';
 export default class Api {
 
 	get Builder() {
+		console.warn('Using Api.Builder is deprecated. Use Api.Request constructor.');
 		return new Builder(this);
+	}
+
+	get Request() {
+		const self = this;
+		return class extends Builder {
+			constructor(authHeader = null) {
+				super(self, authHeader);
+			}
+		}
 	}
 
     /** @type {string} */

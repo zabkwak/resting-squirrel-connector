@@ -29,11 +29,12 @@ declare type Error<T = {}> = ErrorResponse & T;
 
 declare type Callback<T = {}, U = {}> = (err?: Error<U>, data?: Data<T>, meta?: { [key: string]: any }) => void;
 
-declare class Builder {
+export class Builder<A = { [key: string]: any }, P = { [key: string]: any }, H = { [key: string]: any }, R = {}> {
 
 	constructor(api: Api);
+	constructor(api: Api, authHeader: string);
 
-	public execute<T = {}>(): Promise<Data<T>>;
+	public execute<T extends R>(): Promise<Data<T>>;
 
 	public get(endpoint: string): this;
 
@@ -43,24 +44,34 @@ declare class Builder {
 
 	public delete(endpoint: string): this;
 
+	public sign(authorization: string): this;
 	public sign(key: string, value: any): this;
 
-	public addHeader(key: string, value: any): this;
+	public addHeader<K extends keyof H>(key: K, value: H[K]): this;
 
-	public addParam(key: string, value: any): this;
+	public addParam<K extends keyof P>(key: K, value: P[K]): this;
 
-	public addArgument(key: string, value: any): this;
+	public addArgument<K extends keyof A>(key: K, value: A[K]): this;
 
-	public setHeaders(headers: { [key: string]: any }): this;
+	public setHeaders(headers: H): this;
 
-	public setParams(params: { [key: string]: any }): this;
+	public setParams(params: P): this;
 
-	public setArguments(params: { [key: string]: any }): this;
+	public setArguments(arguments: A): this;
+}
+
+declare class RequestBuilder<A = { [key: string]: any }, P = { [key: string]: any }, H = { [key: string]: any }, R = {}> extends Builder<A, P, H, R> {
+
+	constructor();
+	constructor(authHeader: string);
 }
 
 declare class Api {
 
+	/** @deprecated */
 	public Builder: Builder;
+
+	public Request: typeof RequestBuilder;
 
 	put<T = {}, U = {}>(endpoint: string, cb: Callback<T, U>): void;
 	put<T = {}, U = {}>(endpoint: string, params: { [key: string]: any }, cb: Callback<T, U>): void;

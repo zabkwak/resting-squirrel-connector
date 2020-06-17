@@ -6,6 +6,8 @@ export default class Builder {
 	/** @type {import('./api').default} */
 	_api = null;
 
+	_authHeader = null;
+
 	/** @type {string} */
 	_method = null;
 
@@ -18,8 +20,9 @@ export default class Builder {
 
 	_args = null;
 
-	constructor(api) {
+	constructor(api, authHeader = null) {
 		this._api = api;
+		this._authHeader = authHeader;
 	}
 
 	execute() {
@@ -66,7 +69,11 @@ export default class Builder {
 	}
 
 	sign(key, token) {
-		this.addHeader(key, token);
+		if (!token && this._authHeader) {
+			this.addHeader(this._authHeader, key);
+		} else {
+			this.addHeader(key, token);
+		}
 		return this;
 	}
 
