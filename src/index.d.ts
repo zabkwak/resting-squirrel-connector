@@ -53,11 +53,20 @@ export class Builder<A = { [key: string]: any }, P = { [key: string]: any }, H =
 
 	public addArgument<K extends keyof A>(key: K, value: A[K]): this;
 
+	/** @deprecated */
 	public setHeaders(headers: H): this;
 
+	/** @deprecated */
 	public setParams(params: P): this;
 
+	/** @deprecated */
 	public setArguments(arguments: A): this;
+
+	public headers(headers: H): this;
+	
+	public params(params: P): this;
+	
+	public args(arguments: A): this;
 }
 
 declare class RequestBuilder<A = { [key: string]: any }, P = { [key: string]: any }, H = { [key: string]: any }, R = {}> extends Builder<A, P, H, R> {

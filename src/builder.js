@@ -94,16 +94,28 @@ export default class Builder {
 	}
 
 	setParams(params) {
+		return this.params(params);
+	}
+
+	setHeaders(headers) {
+		return this.headers(headers);
+	}
+
+	setArguments(args) {
+		return this.args(args);
+	}
+
+	params(params) {
 		this._params = params;
 		return this;
 	}
 
-	setHeaders(headers) {
+	headers(headers) {
 		this._headers = headers;
 		return this;
 	}
 
-	setArguments(args) {
+	args(args) {
 		this._args = args;
 		return this;
 	}
