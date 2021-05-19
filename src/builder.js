@@ -40,6 +40,11 @@ export default class Builder {
 		);
 	}
 
+	v(version) {
+		this._api._version = version;
+		return this;
+	}
+
 	get(endpoint) {
 		this._setEndpoint(endpoint, 'get');
 		return this;

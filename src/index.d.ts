@@ -36,6 +36,8 @@ export class Builder<A = { [key: string]: any }, P = { [key: string]: any }, H =
 
 	public execute<T extends R>(): Promise<Data<T>>;
 
+	public v(version: number): this;
+
 	public get(endpoint: string): this;
 
 	public put(endpoint: string): this;
