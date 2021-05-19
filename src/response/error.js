@@ -7,6 +7,10 @@ export default class ErrorResponse extends Base {
     code = null;
 	stacktrace = null;
 
+	get stack() {
+		return this.stacktrace.join('\n');
+	}
+
     constructor(statusCode, error, meta) {
         super(statusCode, error, meta);
         this.message = this._data.message;

@@ -17,6 +17,8 @@ declare class BaseResponse {
 export class ErrorResponse extends BaseResponse {
 	message: string;
 	code: string;
+	stacktrace: string[];
+	stack: string;
 }
 
 export class DataResponse extends BaseResponse {
