@@ -47,7 +47,7 @@ const calls = (method, api = new Api(URL, 0)) => {
             }
             expect(error).to.be.an('object');
             expect(error).to.be.an.instanceOf(ErrorResponse);
-            expect(error).to.have.all.keys(['message', 'code', 'stack']);
+            expect(error).to.have.all.keys(['message', 'code', 'stacktrace']);
             expect(error.message).to.be.equal('Parameter \'int\' is missing.');
             expect(error.code).to.be.equal('ERR_MISSING_PARAMETER');
             expect(error.statusCode).to.be.equal(400);
@@ -65,7 +65,7 @@ const calls = (method, api = new Api(URL, 0)) => {
             }
             expect(error).to.be.an('object');
             expect(error).to.be.an.instanceOf(ErrorResponse);
-            expect(error).to.have.all.keys(['message', 'code', 'stack', 'type_error']);
+            expect(error).to.have.all.keys(['message', 'code', 'stacktrace', 'type_error']);
             expect(error.message).to.be.equal('Parameter \'int\' has invalid type. It should be \'integer\'.');
             expect(error.code).to.be.equal('ERR_INVALID_TYPE');
             expect(error.statusCode).to.be.equal(400);
@@ -118,7 +118,7 @@ const calls = (method, api = new Api(URL, 0)) => {
             }
             expect(error).to.be.an('object');
             expect(error).to.be.an.instanceOf(ErrorResponse);
-            expect(error).to.have.all.keys(['message', 'code', 'stack']);
+            expect(error).to.have.all.keys(['message', 'code', 'stacktrace']);
             expect(error.message).to.be.equal('The access token is missing.');
             expect(error.code).to.be.equal('ERR_MISSING_ACCESS_TOKEN');
             expect(error.statusCode).to.be.equal(401);
@@ -136,7 +136,7 @@ const calls = (method, api = new Api(URL, 0)) => {
             }
             expect(error).to.be.an('object');
             expect(error).to.be.an.instanceOf(ErrorResponse);
-            expect(error).to.have.all.keys(['message', 'code', 'stack']);
+            expect(error).to.have.all.keys(['message', 'code', 'stacktrace']);
             expect(error.message).to.be.equal('Unauthorized');
             expect(error.code).to.be.equal('ERR_UNAUTHORIZED');
             expect(error.statusCode).to.be.equal(401);
