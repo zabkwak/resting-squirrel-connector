@@ -36,7 +36,7 @@ const calls = (method, api = new Api(URL, 0)) => {
     it(`calls the ${method} endpoint without params`, (done) => {
         api[method]('/test', (err, data, meta) => {
             expect(err).to.be.an('object');
-            expect(err).to.have.all.keys(['message', 'code']);
+            expect(err).to.have.all.keys(['message', 'code', 'stack']);
             expect(err.message).to.be.equal('Parameter \'int\' is missing.');
             expect(err.code).to.be.equal('ERR_MISSING_PARAMETER');
             expect(meta).to.be.an('object');
@@ -47,7 +47,7 @@ const calls = (method, api = new Api(URL, 0)) => {
     it(`calls the ${method} endpoint with parameter of wrong type`, (done) => {
         api[method]('/test', { int: 'test' }, (err, data, meta) => {
             expect(err).to.be.an('object');
-            expect(err).to.have.all.keys(['message', 'code', 'type_error']);
+            expect(err).to.have.all.keys(['message', 'code', 'stack', 'type_error']);
             expect(err.message).to.be.equal('Parameter \'int\' has invalid type. It should be \'integer\'.');
             expect(err.code).to.be.equal('ERR_INVALID_TYPE');
             expect(meta).to.be.an('object');
@@ -92,7 +92,7 @@ const calls = (method, api = new Api(URL, 0)) => {
         api._meta = true;
         api[method]('/test/auth', { int: 1 }, (err, data, meta) => {
             expect(err).to.be.an('object');
-            expect(err).to.have.all.keys(['message', 'code']);
+            expect(err).to.have.all.keys(['message', 'code', 'stack']);
             expect(err.message).to.be.equal('The access token is missing.');
             expect(err.code).to.be.equal('ERR_MISSING_ACCESS_TOKEN');
             expect(meta).to.be.an('object');
@@ -104,7 +104,7 @@ const calls = (method, api = new Api(URL, 0)) => {
         api._meta = true;
         api[method]('/test/auth', { int: 1 }, { 'x-token': 'INVALID_TOKEN' }, (err, data, meta) => {
             expect(err).to.be.an('object');
-            expect(err).to.have.all.keys(['message', 'code']);
+            expect(err).to.have.all.keys(['message', 'code', 'stack']);
             expect(err.message).to.be.equal('Unauthorized');
             expect(err.code).to.be.equal('ERR_UNAUTHORIZED');
             expect(meta).to.be.an('object');

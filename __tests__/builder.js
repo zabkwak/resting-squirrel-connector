@@ -16,6 +16,7 @@ const app = rs({
 			return true;
 		},
 	},
+	errorStack: true,
 });
 
 app.get('/', { response: null, params: [new Param('test', true, Type.string)] }, async ({ query }) => query);

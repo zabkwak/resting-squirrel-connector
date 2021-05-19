@@ -42,7 +42,7 @@ const calls = (method) => {
             }
             expect(error).to.be.an('object');
             expect(error).to.be.an.instanceOf(ErrorResponse);
-            expect(error).to.have.all.keys(['message', 'code']);
+            expect(error).to.have.all.keys(['message', 'code', 'stack']);
             expect(error.message).to.be.equal('Api key is missing.');
             expect(error.code).to.be.equal('ERR_MISSING_API_KEY');
             expect(error.statusCode).to.be.equal(403);
@@ -61,7 +61,7 @@ const calls = (method) => {
             }
             expect(error).to.be.an('object');
             expect(error).to.be.an.instanceOf(ErrorResponse);
-            expect(error).to.have.all.keys(['message', 'code']);
+            expect(error).to.have.all.keys(['message', 'code', 'stack']);
             expect(error.message).to.be.equal('Forbidden');
             expect(error.code).to.be.equal('ERR_FORBIDDEN');
             expect(error.statusCode).to.be.equal(403);

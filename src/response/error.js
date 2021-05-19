@@ -5,11 +5,13 @@ export default class ErrorResponse extends Base {
 
     message = null;
     code = null;
+	stack = null;
 
     constructor(statusCode, error, meta) {
         super(statusCode, error, meta);
         this.message = this._data.message;
         this.code = this._data.code;
+		this.stack = this._data.stack;
 
         const payload = this._parsePayload(error);
         Object.keys(payload).forEach(key => this[key] = payload[key]);
