@@ -86,6 +86,16 @@ declare class Api {
 
 	public Request: typeof RequestBuilder;
 
+	/**
+	 * The URL of the API.
+	 */
+	public url: string;
+
+	/**
+	 * API key of the API.
+	 */
+	public apiKey: string;
+
 	put<T = {}, U = {}>(endpoint: string, cb: Callback<T, U>): void;
 	put<T = {}, U = {}>(endpoint: string, params: { [key: string]: any }, cb: Callback<T, U>): void;
 	put<T = {}, U = {}>(endpoint: string, params: { [key: string]: any }, headers: { [key: string]: any }, cb: Callback<T, U>): void;
